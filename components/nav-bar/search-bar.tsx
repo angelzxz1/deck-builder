@@ -16,50 +16,11 @@ import { Search } from "lucide-react";
 import { useDispatch } from "react-redux";
 
 import axios from "axios";
-import { add, CardType, CardTypeFaces } from "@/redux/features/deckListSlice";
-import { hasCardFaces } from "@/lib/utils";
+import { add } from "@/redux/features/deckListSlice";
+import { CreateCardFormat, parseOracleText, propsChecker } from "@/lib/utils";
 const formSchema = z.object({
     cardName: z.string().min(1),
 });
-export const CreateCardFormat = (
-    res: axios.AxiosResponse
-): CardTypeFaces | CardType => {
-    let cardData: CardTypeFaces | CardType;
-    const { name, id, mana_cost, type_line, color_identity } = res.data;
-    if (hasCardFaces(res.data)) {
-        const { card_faces } = res.data;
-        cardData = {
-            name,
-            id,
-            mana_cost,
-            type_line,
-            color_identity,
-            amount: 1,
-            card_faces: [
-                {
-                    name: card_faces[0].name,
-                    url: card_faces[0].image_uris.large,
-                },
-                {
-                    name: card_faces[1].name,
-                    url: card_faces[1].image_uris.large,
-                },
-            ],
-        };
-    } else {
-        const { image_uris } = res.data;
-        cardData = {
-            name,
-            url: image_uris.large,
-            id,
-            mana_cost,
-            type_line,
-            amount: 1,
-            color_identity,
-        };
-    }
-    return cardData;
-};
 
 export const SearchBarNav = () => {
     const dispatch = useDispatch();
@@ -74,7 +35,11 @@ export const SearchBarNav = () => {
             const nombre = values.cardName.replaceAll(" ", "+");
             const url = `https://api.scryfall.com/cards/named?fuzzy=${nombre}`;
             const res = await axios.get(url);
+            console.log(res.data);
             dispatch(add(CreateCardFormat(res)));
+            if (propsChecker(res)) {
+                const text = parseOracleText(res.data.oracle_text);
+            }
             form.resetField("cardName");
         } catch (error) {
             console.log(error);
@@ -109,3 +74,7 @@ export const SearchBarNav = () => {
         </Form>
     );
 };
+
+/*
+
+*/

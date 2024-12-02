@@ -16,7 +16,7 @@ import { Textarea } from "@/components/ui/textarea";
 import axios from "axios";
 import { useState } from "react";
 import { Loader } from "lucide-react";
-import { CreateCardFormat } from "./nav-bar/search-bar";
+import { CreateCardFormat, parseOracleText, propsChecker } from "@/lib/utils";
 import { useDispatch } from "react-redux";
 import { add } from "@/redux/features/deckListSlice";
 
@@ -54,6 +54,10 @@ export function SearchList() {
                     `https://api.scryfall.com/cards/named?fuzzy=${formatedForSearch}`
                 );
                 const cardData = CreateCardFormat(res);
+                if (propsChecker(res)) {
+                    const text = parseOracleText(res.data.oracle_text);
+                    console.log(text);
+                }
                 dispatch(add(cardData));
                 setTimeout(() => {}, 200);
             } catch (error) {
