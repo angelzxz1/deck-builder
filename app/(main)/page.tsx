@@ -1,6 +1,6 @@
 "use client";
 import { RootState } from "@/redux/store";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { Card } from "@/components/card";
 import { useEffect, useState } from "react";
 export default function Home() {

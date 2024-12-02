@@ -22,7 +22,7 @@ const formSchema = z.object({
     cardName: z.string().min(1),
 });
 export const CreateCardFormat = (
-    res: axios.AxiosResponse<any, any>
+    res: axios.AxiosResponse
 ): CardTypeFaces | CardType => {
     let cardData: CardTypeFaces | CardType;
     const { name, id, mana_cost, type_line, color_identity } = res.data;
