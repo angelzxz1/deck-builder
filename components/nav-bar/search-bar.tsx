@@ -60,6 +60,7 @@ export const CreateCardFormat = (
     }
     return cardData;
 };
+
 export const SearchBarNav = () => {
     const dispatch = useDispatch();
     const form = useForm<z.infer<typeof formSchema>>({
@@ -71,11 +72,9 @@ export const SearchBarNav = () => {
     async function onSubmit(values: z.infer<typeof formSchema>) {
         try {
             const nombre = values.cardName.replaceAll(" ", "+");
-            let cardData: CardTypeFaces | CardType;
             const url = `https://api.scryfall.com/cards/named?fuzzy=${nombre}`;
             const res = await axios.get(url);
-            cardData = CreateCardFormat(res);
-            dispatch(add(cardData));
+            dispatch(add(CreateCardFormat(res)));
             form.resetField("cardName");
         } catch (error) {
             console.log(error);

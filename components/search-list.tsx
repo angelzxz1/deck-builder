@@ -50,7 +50,6 @@ export function SearchList() {
                 const formatedForSearch = list[i]
                     .toLowerCase()
                     .replace(" ", "+");
-                const tempList = [];
                 const res = await axios.get(
                     `https://api.scryfall.com/cards/named?fuzzy=${formatedForSearch}`
                 );
@@ -58,7 +57,7 @@ export function SearchList() {
                 dispatch(add(cardData));
                 setTimeout(async () => {}), 200;
             } catch (error) {
-                // console.log(error);
+                console.log(error);
                 stringOfMissing += list[i] + "\n";
                 setMissingCards((prev) => [...prev, { cardName: list[i] }]);
             }
