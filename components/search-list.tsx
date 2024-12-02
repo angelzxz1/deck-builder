@@ -55,7 +55,7 @@ export function SearchList() {
                 );
                 const cardData = CreateCardFormat(res);
                 dispatch(add(cardData));
-                setTimeout(async () => {}), 200;
+                setTimeout(() => {}, 200);
             } catch (error) {
                 console.log(error);
                 stringOfMissing += list[i] + "\n";
