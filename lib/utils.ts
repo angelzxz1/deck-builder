@@ -1,14 +1,12 @@
+import { CardType, CardTypeFaces } from "@/redux/features/deckListSlice";
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 
 export function cn(...inputs: ClassValue[]) {
     return twMerge(clsx(inputs));
 }
-export type ApiResponse = {
-    card_faces?: any; // Propiedad opcional
-    [key: string]: any; // Permite otras propiedades
-};
-export function hasCardFaces(data: ApiResponse): boolean {
+
+export function hasCardFaces(data: CardType | CardTypeFaces): boolean {
     return "card_faces" in data;
 }
 export function hasString(str: string, substring: string): boolean {

@@ -10,7 +10,6 @@ import {
     FormControl,
     FormField,
     FormItem,
-    FormLabel,
     FormMessage,
 } from "@/components/ui/form";
 import { Textarea } from "@/components/ui/textarea";
@@ -67,6 +66,7 @@ export function SearchList() {
         form.reset();
         form.setValue("deckList", stringOfMissing);
         setIsFetching(false);
+        console.log(missingCards);
     }
 
     return (

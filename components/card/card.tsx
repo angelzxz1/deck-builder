@@ -5,8 +5,7 @@ import {
     CardTypeFaces,
     remove,
 } from "@/redux/features/deckListSlice";
-import { RootState } from "@/redux/store";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { Button } from "@/components/ui/button";
 import { RefreshCw, X } from "lucide-react";
 import { useState } from "react";
