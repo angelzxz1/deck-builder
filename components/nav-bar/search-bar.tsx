@@ -39,6 +39,7 @@ export const SearchBarNav = () => {
             dispatch(add(CreateCardFormat(res)));
             if (propsChecker(res)) {
                 const text = parseOracleText(res.data.oracle_text);
+                console.log(text)
             }
             form.resetField("cardName");
         } catch (error) {
