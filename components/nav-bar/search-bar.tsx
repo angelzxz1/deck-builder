@@ -17,7 +17,11 @@ import { useDispatch } from "react-redux";
 
 import axios from "axios";
 import { add } from "@/redux/features/deckListSlice";
-import { CreateCardFormat, parseOracleText, propsChecker } from "@/lib/utils";
+import {
+    CreateCardFormat,
+    parseOracleText,
+    propsChecker,
+} from "@/lib/cardsUtils";
 const formSchema = z.object({
     cardName: z.string().min(1),
 });
@@ -39,7 +43,7 @@ export const SearchBarNav = () => {
             dispatch(add(CreateCardFormat(res)));
             if (propsChecker(res)) {
                 const text = parseOracleText(res.data.oracle_text);
-                console.log(text)
+                console.log(text);
             }
             form.resetField("cardName");
         } catch (error) {
