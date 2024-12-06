@@ -16,9 +16,17 @@ import { Textarea } from "@/components/ui/textarea";
 import axios from "axios";
 import { useState } from "react";
 import { Loader } from "lucide-react";
-import { CreateCardFormat, parseOracleText, propsChecker } from "@/lib/utils";
-import { useDispatch } from "react-redux";
-import { add } from "@/redux/features/deckListSlice";
+import {
+    CreateCardFormat,
+    parseOracleText,
+    propsChecker,
+} from "@/lib/cardsUtils";
+import { useDispatch /*useSelector*/ } from "react-redux";
+import {
+    addList,
+    CardType,
+    CardTypeFaces,
+} from "@/redux/features/deckListSlice";
 
 const formSchema = z.object({
     deckList: z.string().min(2, {
@@ -34,17 +42,19 @@ export function SearchList() {
             deckList: "",
         },
     });
+    // const deckList = useSelector((state: RootState) => state.deckList.list);
     const dispatch = useDispatch();
     const [isFetching, setIsFetching] = useState<boolean>(false);
-    const [missingCards, setMissingCards] = useState<{ cardName: string }[]>(
-        []
-    );
+    // const [missingCards, setMissingCards] = useState<{ cardName: string }[]>(
+    //     []
+    // );
 
     // 2. Define a submit handler.
     async function onSubmit(values: z.infer<typeof formSchema>) {
         const list = values.deckList.split("\n");
         let stringOfMissing = "";
         setIsFetching(true);
+        const provArr: Array<CardTypeFaces | CardType> = [];
         for (let i = 0; i < list.length; i++) {
             try {
                 const formatedForSearch = list[i]
@@ -58,18 +68,18 @@ export function SearchList() {
                     const text = parseOracleText(res.data.oracle_text);
                     console.log(text);
                 }
-                dispatch(add(cardData));
+                provArr.push(cardData);
                 setTimeout(() => {}, 200);
             } catch (error) {
                 console.log(error);
                 stringOfMissing += list[i] + "\n";
-                setMissingCards((prev) => [...prev, { cardName: list[i] }]);
+                // setMissingCards((prev) => [...prev, { cardName: list[i] }]);
             }
         }
+        dispatch(addList(provArr));
         form.reset();
         form.setValue("deckList", stringOfMissing);
         setIsFetching(false);
-        console.log(missingCards);
     }
 
     return (

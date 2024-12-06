@@ -13,11 +13,11 @@ const MainLayout = ({
 }>) => {
     return (
         <Provider store={store}>
-            <SidebarProvider>
+            <SidebarProvider className="absolute">
                 <NavBar />
-                <main className="h-full w-full pt-14">{children}</main>
                 <AppSidebar />
             </SidebarProvider>
+            <main className="h-full w-full pt-20">{children}</main>
         </Provider>
     );
 };
