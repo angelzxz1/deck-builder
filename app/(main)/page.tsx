@@ -13,15 +13,18 @@ export default function Home() {
 
     if (!isLoading) return;
     return (
-        <main className="flex px-16 pt-8 gap-4 flex-wrap justify-evenly relative ">
+        <main className="flex px-8 pt-8 gap-4 justify-evenly relative items-start">
             {ListofTypes.map((type) => {
                 return { name: type, list: deckList[type] };
             }).map((listByType, i) => (
-                <div className="flex flex-wrap w-[12%]" key={`container_${i}`}>
-                    <div className="w-full flex justify-center ">
+                <div
+                    className="flex flex-wrap w-[12%] h-full "
+                    key={`container_${i}`}
+                >
+                    <div className="w-full flex justify-center">
                         {listByType.name}
                     </div>
-                    <div className="w-full flex justify-center flex-wrap ">
+                    <div className="w-full h-full">
                         {listByType.list.map((item) => (
                             <Card item={item} key={item.id} />
                         ))}

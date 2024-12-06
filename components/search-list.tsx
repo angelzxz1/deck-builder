@@ -44,9 +44,9 @@ export function SearchList() {
     });
     const dispatch = useDispatch();
     const [isFetching, setIsFetching] = useState<boolean>(false);
-    const [missingCards, setMissingCards] = useState<{ cardName: string }[]>(
-        []
-    );
+    // const [missingCards, setMissingCards] = useState<{ cardName: string }[]>(
+    //     []
+    // );
 
     // 2. Define a submit handler.
     async function onSubmit(values: z.infer<typeof formSchema>) {
@@ -71,7 +71,7 @@ export function SearchList() {
             } catch (error) {
                 console.log(error);
                 stringOfMissing += list[i] + "\n";
-                setMissingCards((prev) => [...prev, { cardName: list[i] }]);
+                // setMissingCards((prev) => [...prev, { cardName: list[i] }]);
             }
         }
         dispatch(addList(provArr));

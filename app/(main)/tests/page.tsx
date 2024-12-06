@@ -44,13 +44,13 @@ export default function Page() {
                                             10
                                         </div>
                                         <div className="flex w-full justify-center">
-                                            <Button className=" h-auto rounded-l-3xl border p-2 hover:scale-110 active:scale-100">
+                                            <Button className="h-auto rounded-l-3xl border p-2 hover:scale-110 active:scale-100">
                                                 {/* {item.amount < 10
                                             ? `0${item.amount}`
                                             : item.amount} */}
                                                 <Minus />
                                             </Button>
-                                            <Button className="  h-auto rounded-r-3xl border p-2 hover:scale-110 active:scale-100">
+                                            <Button className="h-auto rounded-r-3xl border p-2 hover:scale-110 active:scale-100">
                                                 {/* {item.amount < 10
                                             ? `0${item.amount}`
                                             : item.amount} */}

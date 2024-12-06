@@ -21,21 +21,77 @@ export const Card = ({
     if (hasCardFaces(item)) {
         return (
             <div className="w-full h-20 flex justify-center relative">
-                <div className="absolute left-0 hidden group-hover:flex flex-wrap gap-1">
+                <div className="h-full w-full flex justify-center items-center overflow-visible z-50 hover:z-[52] peer group">
+                    <div className="group-hover:translate-y-7 absolute left-0 hidden group-hover:flex flex-wrap gap-1">
+                        <div className="flex w-full justify-center bg-background rounded-full border dark:border-white border-black">
+                            {item.amount < 10 ? `0${item.amount}` : item.amount}
+                        </div>
+                        <div className="flex w-full justify-center">
+                            <Button className="h-auto rounded-l-3xl border p-2 hover:scale-110 active:scale-100">
+                                <Minus />
+                            </Button>
+                            <Button className="h-auto rounded-r-3xl border p-2 hover:scale-110 active:scale-100">
+                                <Plus />
+                            </Button>
+                        </div>
+                    </div>
+                    <Button
+                        className="group-hover:translate-y-7 absolute right-0 h-auto w-auto p-1 hidden group-hover:flex hover:scale-110 active:scale-100 transition-transform"
+                        variant="destructive"
+                        size="icon"
+                        onClick={() => {
+                            dispatch(remove(item));
+                        }}
+                    >
+                        <X />
+                    </Button>
+                    <Button
+                        variant="empty"
+                        size="icon"
+                        className="group-hover:translate-y-7 absolute bottom-1/2 right-1/2 translate-x-1/2 hidden group-hover:flex translate-y-1/2 bg-background/70 hover:scale-110 active:scale-100 transition-transform"
+                        onClick={() => setIsFront((prev) => !prev)}
+                    >
+                        <RefreshCw />
+                    </Button>
+                </div>
+                {isFront ? (
+                    <Image
+                        src={(item as CardTypeFaces).card_faces[0].url}
+                        alt={item.name}
+                        width={170}
+                        height={100}
+                        className="w-full transition-transform peer-hover:scale-125 peer-hover:translate-y-7 rounded-xl absolute top-0 z-30 peer-hover:z-[51]"
+                    />
+                ) : (
+                    <Image
+                        src={(item as CardTypeFaces).card_faces[1].url}
+                        alt={item.name}
+                        width={170}
+                        height={100}
+                        className="w-full transition-transform peer-hover:scale-125 peer-hover:translate-y-7 rounded-xl absolute top-0 z-30 peer-hover:z-[51]"
+                    />
+                )}
+            </div>
+        );
+    }
+    return (
+        <div className="w-full h-20 flex justify-center relative">
+            <div className="h-full w-full flex justify-center items-center overflow-visible z-50 hover:z-[52] peer group">
+                <div className="group-hover:translate-y-7 absolute left-0 hidden group-hover:flex flex-wrap gap-1">
                     <div className="flex w-full justify-center bg-background rounded-full border dark:border-white border-black">
                         {item.amount < 10 ? `0${item.amount}` : item.amount}
                     </div>
                     <div className="flex w-full justify-center">
-                        <Button className=" h-auto rounded-l-3xl border p-2 hover:scale-110 active:scale-100">
+                        <Button className="h-auto rounded-l-3xl border p-2 hover:scale-110 active:scale-100">
                             <Minus />
                         </Button>
-                        <Button className="  h-auto rounded-r-3xl border p-2 hover:scale-110 active:scale-100">
+                        <Button className="h-auto rounded-r-3xl border p-2 hover:scale-110 active:scale-100">
                             <Plus />
                         </Button>
                     </div>
                 </div>
                 <Button
-                    className="absolute right-0 h-auto w-auto p-1 hidden group-hover:flex hover:scale-110 active:scale-100 transition-transform"
+                    className="group-hover:translate-y-7 absolute right-0 h-auto w-auto p-1 hidden group-hover:flex hover:scale-110 active:scale-100 transition-transform"
                     variant="destructive"
                     size="icon"
                     onClick={() => {
@@ -44,66 +100,14 @@ export const Card = ({
                 >
                     <X />
                 </Button>
-                <Button
-                    variant="empty"
-                    size="icon"
-                    className="absolute bottom-1/2 right-1/2 translate-x-1/2 hidden group-hover:flex translate-y-1/2 bg-background/70 hover:scale-110 active:scale-100 transition-transform"
-                    onClick={() => setIsFront((prev) => !prev)}
-                >
-                    <RefreshCw />
-                </Button>
-                {isFront ? (
-                    <Image
-                        src={(item as CardTypeFaces).card_faces[0].url}
-                        alt={item.name}
-                        width={170}
-                        height={100}
-                        className="w-full transition-transform peer-hover:scale-125 rounded-xl absolute top-0 z-30 peer-hover:z-[51]"
-                    />
-                ) : (
-                    <Image
-                        src={(item as CardTypeFaces).card_faces[1].url}
-                        alt={item.name}
-                        width={170}
-                        height={100}
-                        className="w-full transition-transform peer-hover:scale-125 rounded-xl absolute top-0 z-30 peer-hover:z-[51]"
-                    />
-                )}
             </div>
-        );
-    }
-    return (
-        <div className="w-full h-20 flex justify-center relative">
-            <div className="absolute left-0 hidden group-hover:flex flex-wrap gap-1">
-                <div className="flex w-full justify-center bg-background rounded-full border dark:border-white border-black">
-                    {item.amount < 10 ? `0${item.amount}` : item.amount}
-                </div>
-                <div className="flex w-full justify-center">
-                    <Button className=" h-auto rounded-l-3xl border p-2 hover:scale-110 active:scale-100">
-                        <Minus />
-                    </Button>
-                    <Button className="  h-auto rounded-r-3xl border p-2 hover:scale-110 active:scale-100">
-                        <Plus />
-                    </Button>
-                </div>
-            </div>
-            <Button
-                className="absolute right-0 h-auto w-auto p-1 hidden group-hover:flex hover:scale-110 active:scale-100 transition-transform"
-                variant="destructive"
-                size="icon"
-                onClick={() => {
-                    dispatch(remove(item));
-                }}
-            >
-                <X />
-            </Button>
 
             <Image
                 src={(item as CardType).url}
                 alt={item.name}
                 width={170}
                 height={100}
-                className="w-full transition-transform peer-hover:scale-125 rounded-xl absolute top-0 z-30 peer-hover:z-[51]"
+                className="w-full transition-transform peer-hover:scale-125 peer-hover:translate-y-7 rounded-xl absolute top-0 z-30 peer-hover:z-[51]"
             />
         </div>
     );

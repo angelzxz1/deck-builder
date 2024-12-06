@@ -18,7 +18,7 @@ import { Search } from "lucide-react";
 
 export function AppSidebar() {
     return (
-        <Sidebar side="right" variant="floating" className="z-50">
+        <Sidebar side="right" variant="floating" className="z-[100]">
             <SidebarHeader />
             <SidebarContent>
                 <SidebarGroup>
