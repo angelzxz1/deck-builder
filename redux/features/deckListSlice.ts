@@ -45,6 +45,7 @@ export interface DeckListState {
         Instant: Array<CardType | CardTypeFaces>;
         Sorcery: Array<CardType | CardTypeFaces>;
         Battle: Array<CardType | CardTypeFaces>;
+        Planeswalker: Array<CardType | CardTypeFaces>;
     };
 }
 const initialState: DeckListState = {
@@ -56,6 +57,7 @@ const initialState: DeckListState = {
         Instant: [],
         Sorcery: [],
         Battle: [],
+        Planeswalker: [],
     },
 };
 
@@ -131,7 +133,7 @@ export const deckListSlice = createSlice({
                 });
             }
             if (index !== -1) {
-                list[type].splice(index, 1); // Elimina 1 elemento desde el índice encontrado
+                list[type].splice(index, 1);
             }
         },
     },
