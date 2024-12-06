@@ -21,7 +21,7 @@ import {
     parseOracleText,
     propsChecker,
 } from "@/lib/cardsUtils";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch /*useSelector*/ } from "react-redux";
 import {
     addList,
     CardType,
