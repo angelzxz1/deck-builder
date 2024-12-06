@@ -4,10 +4,9 @@ import { Button } from "@/components/ui/button";
 import { Minus, Plus, RefreshCw, X } from "lucide-react";
 import Image from "next/image";
 import type { JSX } from "react";
-import { useDispatch } from "react-redux";
+// import { useDispatch } from "react-redux";
 
 export default function Page() {
-    const dispatch = useDispatch();
     const divs = [
         "Lands",
         "Creatures",
@@ -37,7 +36,10 @@ export default function Page() {
                     <div className="w-full flex justify-center ">{type}</div>
                     <div className="w-full flex justify-center flex-wrap ">
                         {arrArr.map((item, j) => (
-                            <div className="w-full h-20 flex justify-center relative">
+                            <div
+                                className="w-full h-20 flex justify-center relative"
+                                key={`card_${i}${j}`}
+                            >
                                 <div className="h-full w-full flex justify-center items-center overflow-visible z-50 hover:z-[52] peer group">
                                     <div className="absolute left-0 hidden group-hover:flex flex-wrap gap-1">
                                         <div className="flex w-full justify-center bg-background rounded-full border dark:border-white border-black">

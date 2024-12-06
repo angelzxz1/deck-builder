@@ -21,7 +21,7 @@ import {
     parseOracleText,
     propsChecker,
 } from "@/lib/cardsUtils";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
     addList,
     CardType,
@@ -42,6 +42,7 @@ export function SearchList() {
             deckList: "",
         },
     });
+    // const deckList = useSelector((state: RootState) => state.deckList.list);
     const dispatch = useDispatch();
     const [isFetching, setIsFetching] = useState<boolean>(false);
     // const [missingCards, setMissingCards] = useState<{ cardName: string }[]>(
@@ -65,6 +66,7 @@ export function SearchList() {
                 const cardData = CreateCardFormat(res);
                 if (propsChecker(res)) {
                     const text = parseOracleText(res.data.oracle_text);
+                    console.log(text);
                 }
                 provArr.push(cardData);
                 setTimeout(() => {}, 200);
