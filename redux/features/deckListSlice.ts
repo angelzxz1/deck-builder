@@ -1,6 +1,7 @@
 import { cardTypes, parseStringToTypes } from "@/lib/cardsUtils";
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
+import { color_identity_type } from "./statsSlice";
 
 export interface CardType {
     id: string;
@@ -10,7 +11,7 @@ export interface CardType {
     type_line: string;
     type: cardTypes;
     amount: number;
-    color_identity: string;
+    color_identity: color_identity_type;
 }
 export interface CardTypeFaces {
     id: string;
@@ -18,19 +19,11 @@ export interface CardTypeFaces {
     mana_cost: string;
     type_line: string;
     amount: number;
-    color_identity: string;
+    color_identity: color_identity_type;
     card_faces: [
         { name: string; url: string; type: cardTypes },
         { name: string; url: string; type: cardTypes }
     ];
-}
-
-export interface DeckListsState {
-    commander: Array<CardType | CardTypeFaces>;
-    lands: {
-        basic: CardType[];
-        land: Array<CardType | CardTypeFaces>;
-    };
 }
 
 // export interface DeckListState {

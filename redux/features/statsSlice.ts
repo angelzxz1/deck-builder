@@ -1,59 +1,67 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
-import { DeckListState, CardType, CardTypeFaces } from "./deckListSlice";
-export interface ManaGenerated {
-    white: number;
-    black: number;
-    red: number;
-    green: number;
-    blue: number;
-    non_colored: number;
-}
-export interface StatsState {
+import {
+    CardType as TypeCard,
+    CardTypeFaces as TypeCardFaces,
+} from "./deckListSlice";
+
+export type ColorKeys = "W" | "B" | "G" | "R" | "U" | "C";
+type CardType =
+    | "artifacts"
+    | "battle"
+    | "creatures"
+    | "enchantmets"
+    | "instant"
+    | "lands"
+    | "planeswalker"
+    | "sorcery";
+export type ManaGenerated = {
+    [key in ColorKeys]: number;
+};
+type countAndMana = {
+    amount: number;
     mana_generated: ManaGenerated;
-    color_identity: string;
-    lands: {
-        land: number;
-        basic_land: number;
-        mana_generated: ManaGenerated;
-    };
-    creatures: {
-        amount: number;
-        mana_generated: ManaGenerated;
-    };
-    artifacts: {
-        amount: number;
-        mana_generated: ManaGenerated;
-    };
-    enchantmets: number;
-    battle: number;
-    planeswalker: number;
-    instant: number;
-    sorcery: number;
-}
+};
+
+type countOnly = { amount: number };
+export type imageNames = "W" | "B" | "G" | "R" | "U";
+export type color_identity_type = Array<imageNames>;
+export type StatsState = {
+    commander: Array<TypeCard | TypeCardFaces>;
+    mana_generated: ManaGenerated;
+    color_identity: color_identity_type;
+    lands: countAndMana;
+    creatures: countAndMana;
+    artifacts: countAndMana;
+    enchantmets: countOnly;
+    battle: countOnly;
+    planeswalker: countOnly;
+    instant: countOnly;
+    sorcery: countOnly;
+};
 
 const get_Mana = (mana: ManaGenerated) => {
-    const { black, blue, green, red, white, non_colored } = mana;
-    return black + blue + green + red + white + non_colored;
+    const { B, U, G, R, W, C } = mana;
+    return B + U + G + R + W + C;
 };
 
 const createManaGenerated = (): ManaGenerated => ({
-    black: 0,
-    blue: 0,
-    green: 0,
-    red: 0,
-    white: 0,
-    non_colored: 0,
+    B: 0,
+    U: 0,
+    G: 0,
+    R: 0,
+    W: 0,
+    C: 0,
 });
 
 const initialMana: ManaGenerated = createManaGenerated();
 
 const initialState: StatsState = {
+    commander: [],
     mana_generated: initialMana,
-    color_identity: "",
+    color_identity: [],
     lands: {
-        land: 0,
-        basic_land: 0,
+        amount: 0,
         mana_generated: initialMana,
     },
     creatures: {
@@ -64,48 +72,146 @@ const initialState: StatsState = {
         amount: 0,
         mana_generated: initialMana,
     },
-    enchantmets: 0,
-    battle: 0,
-    planeswalker: 0,
-    instant: 0,
-    sorcery: 0,
+    enchantmets: {
+        amount: 0,
+    },
+    battle: {
+        amount: 0,
+    },
+    planeswalker: {
+        amount: 0,
+    },
+    instant: {
+        amount: 0,
+    },
+    sorcery: {
+        amount: 0,
+    },
 };
 export const StatsSlice = createSlice({
     name: "state",
     initialState,
     reducers: {
-        manaGenerated: ({ mana_generated, creatures, artifacts, lands }) => {
-            const totalCreaturesMana = get_Mana(creatures.mana_generated);
-            const totalArtifactsMana = get_Mana(artifacts.mana_generated);
-            const totalLandsMana = get_Mana(lands.mana_generated);
-            mana_generated.black =
-                creatures.mana_generated.black +
-                artifacts.mana_generated.black +
-                lands.mana_generated.black;
-            mana_generated.blue =
-                creatures.mana_generated.blue +
-                artifacts.mana_generated.blue +
-                lands.mana_generated.blue;
-            mana_generated.green =
-                creatures.mana_generated.green +
-                artifacts.mana_generated.green +
-                lands.mana_generated.green;
-            mana_generated.red =
-                creatures.mana_generated.red +
-                artifacts.mana_generated.red +
-                lands.mana_generated.red;
-            mana_generated.white =
-                creatures.mana_generated.white +
-                artifacts.mana_generated.white +
-                lands.mana_generated.white;
-            mana_generated.non_colored =
-                creatures.mana_generated.non_colored +
-                artifacts.mana_generated.non_colored +
-                lands.mana_generated.non_colored;
+        creaturesData: (
+            { creatures },
+            { payload }: PayloadAction<ManaGenerated>
+        ) => {
+            creatures.mana_generated.B += payload.B;
+            creatures.mana_generated.U += payload.U;
+            creatures.mana_generated.C += payload.C;
+            creatures.mana_generated.G += payload.G;
+            creatures.mana_generated.R += payload.R;
+            creatures.mana_generated.W += payload.W;
         },
+        artifactsData: (
+            { artifacts },
+            { payload }: PayloadAction<ManaGenerated>
+        ) => {
+            artifacts.mana_generated.B += payload.B;
+            artifacts.mana_generated.U += payload.U;
+            artifacts.mana_generated.C += payload.C;
+            artifacts.mana_generated.G += payload.G;
+            artifacts.mana_generated.R += payload.R;
+            artifacts.mana_generated.W += payload.W;
+        },
+        landsData: ({ lands }, { payload }: PayloadAction<ManaGenerated>) => {
+            lands.mana_generated.B += payload.B;
+            lands.mana_generated.U += payload.U;
+            lands.mana_generated.C += payload.C;
+            lands.mana_generated.G += payload.G;
+            lands.mana_generated.R += payload.R;
+            lands.mana_generated.W += payload.W;
+        },
+        addCard: (
+            {
+                artifacts,
+                battle,
+                creatures,
+                enchantmets,
+                instant,
+                lands,
+                planeswalker,
+                sorcery,
+            },
+
+            { payload }: PayloadAction<CardType>
+        ) => {
+            if (payload === "artifacts") {
+                artifacts.amount++;
+                return;
+            }
+            if (payload === "battle") {
+                battle.amount++;
+                return;
+            }
+            if (payload === "creatures") {
+                creatures.amount++;
+                return;
+            }
+            if (payload === "enchantmets") {
+                enchantmets.amount++;
+                return;
+            }
+            if (payload === "instant") {
+                instant.amount++;
+                return;
+            }
+            if (payload === "lands") {
+                lands.amount++;
+                return;
+            }
+            if (payload === "planeswalker") {
+                planeswalker.amount++;
+                return;
+            }
+            if (payload === "sorcery") {
+                sorcery.amount++;
+                return;
+            }
+        },
+        setCommander: (
+            state,
+            { payload }: PayloadAction<Array<TypeCard | TypeCardFaces>>
+        ) => {
+            state.commander = [...payload];
+            console.log(payload[0].color_identity);
+            state.color_identity = [...payload[0].color_identity];
+        },
+        // manaGenerated: ({ mana_generated, creatures, artifacts, lands }) => {
+        //     mana_generated.black =
+        //         creatures.mana_generated.black +
+        //         artifacts.mana_generated.black +
+        //         lands.mana_generated.black;
+        //     mana_generated.blue =
+        //         creatures.mana_generated.blue +
+        //         artifacts.mana_generated.blue +
+        //         lands.mana_generated.blue;
+        //     mana_generated.green =
+        //         creatures.mana_generated.green +
+        //         artifacts.mana_generated.green +
+        //         lands.mana_generated.green;
+        //     mana_generated.red =
+        //         creatures.mana_generated.red +
+        //         artifacts.mana_generated.red +
+        //         lands.mana_generated.red;
+        //     mana_generated.white =
+        //         creatures.mana_generated.white +
+        //         artifacts.mana_generated.white +
+        //         lands.mana_generated.white;
+        //     mana_generated.colorless =
+        //         creatures.mana_generated.colorless +
+        //         artifacts.mana_generated.colorless +
+        //         lands.mana_generated.colorless;
+        // },
     },
 });
 
-export const { manaGenerated } = StatsSlice.actions;
+export const {
+    creaturesData,
+    artifactsData,
+    landsData,
+    addCard,
+    setCommander,
+} = StatsSlice.actions;
 
 export default StatsSlice.reducer;

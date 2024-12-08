@@ -14,7 +14,8 @@ import {
 import { SearchList } from "./search-list";
 import { Collapsible } from "@radix-ui/react-collapsible";
 import { CollapsibleContent, CollapsibleTrigger } from "./ui/collapsible";
-import { Search } from "lucide-react";
+import { ChartNoAxesColumn, ChevronDown, Search } from "lucide-react";
+import { Stats } from "./stats";
 
 export function AppSidebar() {
     return (
@@ -33,6 +34,7 @@ export function AppSidebar() {
                                         <SidebarMenuButton>
                                             <Search />
                                             Add Deck
+                                            <ChevronDown className="ml-auto transition-transform group-data-[state=open]/collapsible:rotate-180" />
                                         </SidebarMenuButton>
                                     </CollapsibleTrigger>
                                     <CollapsibleContent>
@@ -40,6 +42,27 @@ export function AppSidebar() {
                                             <SidebarMenuSubItem />
                                         </SidebarMenuSub>
                                         <SearchList />
+                                    </CollapsibleContent>
+                                </SidebarMenuItem>
+                            </Collapsible>
+                            <Collapsible
+                                defaultOpen
+                                className="group/collapsible"
+                            >
+                                <SidebarMenuItem>
+                                    <CollapsibleTrigger asChild>
+                                        <SidebarMenuButton>
+                                            <ChartNoAxesColumn />
+                                            Stats
+                                            <ChevronDown className="ml-auto transition-transform group-data-[state=open]/collapsible:rotate-180" />
+                                        </SidebarMenuButton>
+                                    </CollapsibleTrigger>
+                                    <CollapsibleContent>
+                                        <SidebarMenuSub>
+                                            <SidebarMenuSubItem>
+                                                <Stats />
+                                            </SidebarMenuSubItem>
+                                        </SidebarMenuSub>
                                     </CollapsibleContent>
                                 </SidebarMenuItem>
                             </Collapsible>
